@@ -109,4 +109,4 @@ Query:
 }
 ```
 
-See (`gatsby-image`)[https://www.gatsbyjs.org/packages/gatsby-image/] for more.
+See [`gatsby-image`](https://www.gatsbyjs.org/packages/gatsby-image/) for more.
