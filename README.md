@@ -1,6 +1,6 @@
 # gatsby-source-etsy 🛍
 
-![Current npm package version](https://img.shields.io/npm/v/gatsby-source-etsy)
+[![Current npm package version](https://img.shields.io/npm/v/gatsby-source-etsy)](https://www.npmjs.com/package/gatsby-source-etsy)
 
 Downloads featured listing info and images for your shop!
 
