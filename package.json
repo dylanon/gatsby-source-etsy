@@ -25,5 +25,8 @@
     "bottleneck": "^2.19.5",
     "gatsby-source-filesystem": "^2.1.5",
     "node-fetch": "^2.6.0"
+  },
+  "engines": {
+    "node": ">=10.15.3"
   }
 }
