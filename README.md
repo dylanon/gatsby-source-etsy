@@ -6,7 +6,11 @@ Downloads featured listing info and images for your shop!
 
 ## Installation
 
-Add `gatsby-source-etsy` to your `gatsby-config.js` file:
+Install the package from npm:
+
+`npm i gatsby-source-etsy`
+
+Next, add the plugin to your `gatsby-config.js` file:
 
 ```javascript
 module.exports = {
