@@ -61,7 +61,16 @@ Query transformed/optimized images for a listing (e.g. for use with `gatsby-imag
         childFile {
           childImageSharp {
             fluid {
-              ...GatsbyImageSharpFluid
+              base64
+              tracedSVG
+              aspectRatio
+              width
+              height
+              src
+              srcSet
+              srcWebp
+              srcSetWebp
+              originalName
             }
           }
         }
@@ -94,17 +103,8 @@ Query:
     childrenEtsyListingImage {
       childFile {
         childImageSharp {
-          fixed {
-            base64
-            tracedSVG
-            aspectRatio
-            width
-            height
-            src
-            srcSet
-            srcWebp
-            srcSetWebp
-            originalName
+          fluid {
+            ...GatsbyImageSharpFluid
           }
         }
       }
