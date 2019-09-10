@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "git-cz": "^3.2.1",
+    "prettier": "1.18.2",
     "semantic-release": "^15.13.24"
   }
 }

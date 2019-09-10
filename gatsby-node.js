@@ -51,6 +51,18 @@ exports.sourceNodes = async (
     reporter.info(
       `gatsby-source-etsy: cached listing node not found, downloading ${listingNodeId}`
     )
+
+    // * Create a node for the listing
+    await createNode({
+      id: listingNodeId,
+      parent: null,
+      internal: {
+        type: 'FeaturedEtsyListing',
+        contentDigest: createContentDigest(listing),
+      },
+      ...listing,
+    })
+
     // * Get images metadata for the listing
     const { results: images } = await etsyFetch(
       `${ETSY_BASE_URL}/listings/${listing_id}/images?api_key=${apiKey}`
@@ -62,14 +74,21 @@ exports.sourceNodes = async (
       const imageNodeId = `${listingNodeId}_image_${image.listing_image_id}`
       await createNode({
         id: imageNodeId,
+        parent: listingNodeId,
         internal: {
           type: 'EtsyListingImage',
           contentDigest: createContentDigest(image),
         },
         ...image,
       })
-      const url = image.url_fullxfull
+      const listingNode = getNode(listingNodeId)
+      const imageNode = getNode(imageNodeId)
+      createParentChildLink({
+        parent: listingNode,
+        child: imageNode,
+      })
       // * Create a child node for each image file
+      const url = image.url_fullxfull
       const fileNode = await createRemoteFileNode({
         url,
         parentNodeId: imageNodeId,
@@ -78,7 +97,6 @@ exports.sourceNodes = async (
         createNode,
         createNodeId,
       })
-      const imageNode = getNode(imageNodeId)
       createParentChildLink({
         parent: imageNode,
         child: fileNode,
@@ -86,19 +104,7 @@ exports.sourceNodes = async (
       return imageNode
     })
     const imageNodes = await Promise.all(imageNodePromises)
-
-    // * Create a node for the listing and attach the image nodes as children
     const imageNodeIds = imageNodes.map(node => node.id)
-    await createNode({
-      id: listingNodeId,
-      children: imageNodeIds,
-      parent: null,
-      internal: {
-        type: 'FeaturedEtsyListing',
-        contentDigest: createContentDigest(listing),
-      },
-      ...listing,
-    })
 
     // * Cache the listing node id and image node ids
     await cache.set(`cached-${listingNodeId}`, {
