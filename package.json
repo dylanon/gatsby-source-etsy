@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-etsy",
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "description": "Gatsby.js plugin that sources an Etsy shop's featured listings.",
   "main": "index.js",
   "scripts": {
