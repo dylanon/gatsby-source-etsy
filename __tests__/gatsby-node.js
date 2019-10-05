@@ -13,6 +13,7 @@ jest.mock('../utils', function() {
                 results: [
                   {
                     listing_id: `id1`,
+                    last_modified_tsz: 1570240827981,
                   },
                 ],
               }
@@ -33,42 +34,61 @@ jest.mock('../utils', function() {
             },
           }
         })
+        .mockImplementationOnce(async () => {
+          return {
+            json: async () => {
+              return {
+                results: [
+                  {
+                    listing_id: `id1`,
+                    last_modified_tsz: 1570240827981,
+                  },
+                ],
+              }
+            },
+          }
+        })
     ),
   }
 })
 
+afterEach(() => {
+  jest.clearAllMocks()
+})
+
+// Prepare mocks
+const createNode = jest.fn()
+const createParentChildLink = jest.fn()
+const touchNode = jest.fn()
+const actions = {
+  createNode,
+  createParentChildLink,
+  touchNode,
+}
+const cache = {
+  // Simulate nothing being found in cache
+  get: jest.fn(async () => undefined),
+  set: jest.fn(),
+}
+const createContentDigest = jest.fn(() => 'mockContentDigest')
+const createNodeId = jest.fn()
+const getNode = jest.fn(nodeId => {
+  if (typeof nodeId !== 'string') {
+    return
+  }
+  return {
+    id: nodeId,
+  }
+})
+const reporter = {
+  info: jest.fn(),
+}
+const store = {}
+const apiKey = 'mockApiKey'
+const shopId = 'mockShopId'
+
 describe('when the listing is not cached', () => {
   it('creates a listing node and an image node', async () => {
-    // Prepare mocks
-    const createNode = jest.fn()
-    const createParentChildLink = jest.fn()
-    const touchNode = jest.fn()
-    const actions = {
-      createNode,
-      createParentChildLink,
-      touchNode,
-    }
-    const cache = {
-      // Simulate nothing being found in cache
-      get: jest.fn(async () => undefined),
-      set: jest.fn(),
-    }
-    const createContentDigest = jest.fn(() => 'mockContentDigest')
-    const createNodeId = jest.fn()
-    const getNode = jest.fn(nodeId => {
-      if (typeof nodeId !== 'string') {
-        return
-      }
-      return {
-        id: nodeId,
-      }
-    })
-    const reporter = {
-      info: jest.fn(),
-    }
-    const store = {}
-    const apiKey = 'mockApiKey'
-    const shopId = 'mockShopId'
     // Run test
     await sourceNodes(
       {
@@ -104,6 +124,7 @@ describe('when the listing is not cached', () => {
         contentDigest: 'mockContentDigest',
       },
       listing_id: 'id1',
+      last_modified_tsz: 1570240827981,
     })
     expect(createNode.mock.calls[1][0]).toEqual({
       id: 'gsetsy_listing_id1_image_imageId1',
@@ -120,5 +141,54 @@ describe('when the listing is not cached', () => {
       cachedListingNodeId: 'gsetsy_listing_id1',
       cachedImageNodeIds: ['gsetsy_listing_id1_image_imageId1'],
     })
+  })
+})
+
+describe('when the listing is cached', () => {
+  const cacheWithListing = {
+    // Simulate nothing being found in cache
+    get: jest.fn(async () => {
+      return {
+        cachedListingNodeId: 'cached-gsetsy_listing_id1',
+        cachedImageNodeIds: ['gsetsy_listing_id1_image_imageId1'],
+      }
+    }),
+  }
+  const mockGetNode = nodeId => {
+    const cachedNodes = {
+      'cached-gsetsy_listing_id1': {
+        id: 'gsetsy_listing_id1',
+        listing_id: `id1`,
+        last_modified_tsz: 1570240827981,
+      },
+    }
+    return cachedNodes[nodeId]
+  }
+  it('uses existing nodes instead of creating nodes', async () => {
+    // Run test
+    await sourceNodes(
+      {
+        actions,
+        cache: cacheWithListing,
+        createContentDigest,
+        createNodeId,
+        getNode: mockGetNode,
+        reporter,
+        store,
+      },
+      {
+        apiKey,
+        shopId,
+      }
+    )
+    expect(reporter.info).toBeCalledWith(
+      `gatsby-source-etsy: using cached version of listing node gsetsy_listing_id1`
+    )
+    expect(touchNode).toBeCalledTimes(2)
+    expect(touchNode.mock.calls[0][0]).toEqual({ nodeId: 'gsetsy_listing_id1' })
+    expect(touchNode.mock.calls[1][0]).toEqual({
+      nodeId: 'gsetsy_listing_id1_image_imageId1',
+    })
+    expect(createNode).not.toBeCalled()
   })
 })
