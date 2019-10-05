@@ -38,7 +38,7 @@ jest.mock('../utils', function() {
 })
 
 describe('when the listing is not cached', () => {
-  it('calls the correct methods', async () => {
+  it('creates a listing node and an image node', async () => {
     // Prepare mocks
     const createNode = jest.fn()
     const createParentChildLink = jest.fn()
@@ -96,7 +96,25 @@ describe('when the listing is not cached', () => {
       'gatsby-source-etsy: cached listing node not found, downloading gsetsy_listing_id1'
     )
     expect(createNode).toBeCalledTimes(2)
-    expect(createContentDigest).toBeCalledTimes(2)
+    expect(createNode.mock.calls[0][0]).toEqual({
+      id: 'gsetsy_listing_id1',
+      parent: null,
+      internal: {
+        type: 'FeaturedEtsyListing',
+        contentDigest: 'mockContentDigest',
+      },
+      listing_id: 'id1',
+    })
+    expect(createNode.mock.calls[1][0]).toEqual({
+      id: 'gsetsy_listing_id1_image_imageId1',
+      parent: 'gsetsy_listing_id1',
+      internal: {
+        type: 'EtsyListingImage',
+        contentDigest: 'mockContentDigest',
+      },
+      listing_image_id: `imageId1`,
+      url_fullxfull: `mockImageUrl`,
+    })
     expect(createParentChildLink).toBeCalledTimes(2)
     expect(cache.set).toBeCalledWith('cached-gsetsy_listing_id1', {
       cachedListingNodeId: 'gsetsy_listing_id1',
