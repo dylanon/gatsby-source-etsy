@@ -20,11 +20,11 @@ exports.sourceNodes = async (
   configOptions
 ) => {
   const { createNode, createParentChildLink, touchNode } = actions
-  const { apiKey, shopId } = configOptions
+  const { apiKey, shopId, language } = configOptions
 
   // * Get the listings
   const { results: listings } = await etsyFetch(
-    `${ETSY_BASE_URL}/shops/${shopId}/listings/featured?api_key=${apiKey}`
+    `${ETSY_BASE_URL}/shops/${shopId}/listings/featured?api_key=${apiKey}${language ? `&language=${language}` : ''}`
   ).then(res => res.json())
 
   // * Process listings
