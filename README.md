@@ -20,6 +20,7 @@ module.exports = {
       options: {
         apiKey: 'your api key here',
         shopId: 'your shop id here',
+        language: 'en', // optional
       },
     },
   ],
