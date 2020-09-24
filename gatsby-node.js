@@ -56,7 +56,7 @@ exports.sourceNodes = async (
       id: listingNodeId,
       parent: null,
       internal: {
-        type: 'FeaturedEtsyListing',
+        type: 'EtsyListing',
         contentDigest: createContentDigest(listing),
       },
       ...listing,

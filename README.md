@@ -2,7 +2,7 @@
 
 [![Current npm package version](https://img.shields.io/npm/v/gatsby-source-etsy)](https://www.npmjs.com/package/gatsby-source-etsy)
 
-Downloads featured listing info and images for your shop!
+Downloads listing info and images from your Etsy shop!
 
 ## Installation
 
@@ -52,10 +52,7 @@ Listing info:
 
 ```graphql
 {
-  allFeaturedEtsyListing(
-    sort: { fields: featured_rank, order: ASC }
-    limit: 4
-  ) {
+  allEtsyListing(sort: { fields: featured_rank, order: ASC }, limit: 4) {
     nodes {
       currency_code
       title
@@ -71,10 +68,7 @@ Query transformed/optimized images for a listing (e.g. for use with `gatsby-imag
 
 ```graphql
 {
-  allFeaturedEtsyListing(
-    sort: { fields: featured_rank, order: ASC }
-    limit: 4
-  ) {
+  allEtsyListing(sort: { fields: featured_rank, order: ASC }, limit: 4) {
     nodes {
       childrenEtsyListingImage {
         rank
@@ -84,13 +78,15 @@ Query transformed/optimized images for a listing (e.g. for use with `gatsby-imag
               base64
               tracedSVG
               aspectRatio
-              width
-              height
               src
               srcSet
               srcWebp
               srcSetWebp
               originalName
+              originalImg
+              presentationHeight
+              presentationWidth
+              sizes
             }
           }
         }
@@ -102,9 +98,9 @@ Query transformed/optimized images for a listing (e.g. for use with `gatsby-imag
 
 ## Queryable entities
 
-- allFeaturedEtsyListing
+- allEtsyListing
 - allEtsyListingImage
-- featuredEtsyListing
+- etsyListing
   - childrenEtsyListingImage
 - etsyListingImage
   - childFile
@@ -119,7 +115,7 @@ Query:
 
 ```graphql
 {
-  featuredEtsyListing {
+  etsyListing {
     childrenEtsyListingImage {
       childFile {
         childImageSharp {

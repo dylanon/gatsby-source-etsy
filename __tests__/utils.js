@@ -11,8 +11,9 @@ const page3 = require('../fixtures/page3')
 
 describe('getListingsRecursively', () => {
   let nockScope = nock(ETSY_BASE_URL)
-  const apiKey = 'mockApiKey'
-  const shopId = 'mockShopId'
+  const api_key = 'mockApiKey'
+  const shop_id = 'mockShopId'
+  const listingsEndpoint = `/shops/${shop_id}/listings/active`
 
   afterEach(() => {
     nock.cleanAll()
@@ -22,23 +23,23 @@ describe('getListingsRecursively', () => {
     beforeEach(() => {
       nockScope
         .persist()
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 0,
         })
         .reply(200, page1)
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 1 * ETSY_PAGE_LIMIT,
         })
         .reply(200, page2)
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 2 * ETSY_PAGE_LIMIT,
         })
@@ -47,7 +48,7 @@ describe('getListingsRecursively', () => {
 
     it('fetches all the listings', async () => {
       const etsyFetch = createThrottledFetch(ETSY_FETCH_CONFIG)
-      const listings = await getListingsRecursively(shopId, apiKey, etsyFetch)
+      const listings = await getListingsRecursively(shop_id, api_key, etsyFetch)
       expect(nockScope.isDone()).toBe(true)
       expect(listings.length).toBe(101)
     })
@@ -69,25 +70,25 @@ describe('getListingsRecursively', () => {
     }
     beforeEach(() => {
       nockScope
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 0,
           ...customConfig,
         })
         .reply(200, page1)
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 1 * ETSY_PAGE_LIMIT,
           ...customConfig,
         })
         .reply(200, page2)
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 2 * ETSY_PAGE_LIMIT,
           ...customConfig,
@@ -97,7 +98,7 @@ describe('getListingsRecursively', () => {
 
     it('adds query params to the request', async () => {
       const etsyFetch = createThrottledFetch(ETSY_FETCH_CONFIG)
-      await getListingsRecursively(shopId, apiKey, etsyFetch, customConfig)
+      await getListingsRecursively(shop_id, api_key, etsyFetch, customConfig)
       expect(nockScope.isDone()).toBe(true)
     })
   })
@@ -105,23 +106,23 @@ describe('getListingsRecursively', () => {
   describe('with invalid custom config', () => {
     beforeEach(() => {
       nockScope
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 0,
         })
         .reply(200, page1)
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 1 * ETSY_PAGE_LIMIT,
         })
         .reply(200, page2)
-        .get(`/shops/${shopId}/listings/featured`)
+        .get(listingsEndpoint)
         .query({
-          api_key: apiKey,
+          api_key,
           limit: ETSY_PAGE_LIMIT,
           offset: 2 * ETSY_PAGE_LIMIT,
         })
@@ -130,7 +131,7 @@ describe('getListingsRecursively', () => {
 
     it('skips or overrides specific query params', async () => {
       const etsyFetch = createThrottledFetch(ETSY_FETCH_CONFIG)
-      await getListingsRecursively(shopId, apiKey, etsyFetch, {
+      await getListingsRecursively(shop_id, api_key, etsyFetch, {
         shop_id: 'wrongShopId',
         api_key: 'wrongApiKey',
         limit: 12,

@@ -50,6 +50,7 @@ const shop_id = 'mockShopId'
 const listingId = 'id1'
 const listingImageId = 'imageId1'
 const listingImageUrl = 'mockImageUrl'
+const listingsEndpoint = `/shops/${shop_id}/listings/active`
 
 let nockScope = nock(ETSY_BASE_URL)
 
@@ -62,21 +63,21 @@ describe('networking', () => {
     nockScope
       .filteringPath(/\/listings\/.*\/images/, `/listings/${listingId}/images`)
       .persist()
-      .get(`/shops/${shop_id}/listings/featured`)
+      .get(listingsEndpoint)
       .query({
         api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
         offset: 0,
       })
       .reply(200, page1)
-      .get(`/shops/${shop_id}/listings/featured`)
+      .get(listingsEndpoint)
       .query({
         api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
         offset: 1 * ETSY_PAGE_LIMIT,
       })
       .reply(200, page2)
-      .get(`/shops/${shop_id}/listings/featured`)
+      .get(listingsEndpoint)
       .query({
         api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
@@ -121,7 +122,7 @@ describe('processing', () => {
   beforeEach(() => {
     nockScope
       .persist()
-      .get(`/shops/${shop_id}/listings/featured`)
+      .get(listingsEndpoint)
       .query({
         api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
@@ -135,7 +136,7 @@ describe('processing', () => {
           },
         ],
       })
-      .get(`/shops/${shop_id}/listings/featured`)
+      .get(listingsEndpoint)
       .query({
         api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
@@ -185,7 +186,7 @@ describe('processing', () => {
         id: 'gsetsy_listing_id1',
         parent: null,
         internal: {
-          type: 'FeaturedEtsyListing',
+          type: 'EtsyListing',
           contentDigest: 'mockContentDigest',
         },
         listing_id: 'id1',

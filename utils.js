@@ -49,7 +49,7 @@ async function getListingsRecursively(
   }
   const query = querystring.stringify(queryObject)
   const { results } = await etsyFetch(
-    `${ETSY_BASE_URL}/shops/${shop_id}/listings/featured?${query}`
+    `${ETSY_BASE_URL}/shops/${shop_id}/listings/active?${query}`
   ).then(res => res.json())
 
   let nextResults = []
