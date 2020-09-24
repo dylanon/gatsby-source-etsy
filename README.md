@@ -18,14 +18,33 @@ module.exports = {
     {
       resolve: 'gatsby-source-etsy',
       options: {
-        apiKey: 'your api key here',
-        shopId: 'your shop id here',
-        language: 'en', // optional
+        api_key: 'your api key here',
+        shop_id: 'your shop id here',
+        // The following properties are optional - Most of them narrow the results returned from Etsy.
+        //
+        // You don't have to use them, and in fact, you probably shouldn't!
+        // You're probably here because you need to source *all* your listings.
+        language: 'en',
+        translate_keywords: true,
+        keywords: 'coffee',
+        sort_on: 'created',
+        sort_order: 'up',
+        min_price: 0.01,
+        max_price: 999.99,
+        color: '#333333',
+        color_accuracy: 0,
+        tags: 'diy,coffee,brewing',
+        taxonomy_id: 18,
+        include_private: true,
       },
     },
   ],
-};
+}
 ```
+
+This plugin supports the options specified in Etsy's documentation under [findAllShopListingsActive](https://www.etsy.com/developers/documentation/reference/listing#method_findallshoplistingsactive).
+
+For information on the `language` and `translate_keywords` properties, please see [Searching Listings](https://www.etsy.com/developers/documentation/reference/listing#section_searching_listings).
 
 ## Example GraphQL queries
 
