@@ -3,7 +3,7 @@ const faker = require('faker')
 function generateFakeEtsyPages(numberOfResults = 100, resultsPerPage = 100) {
   const pages = []
   let workingPage = { results: [] }
-  for (let i = 1; i <= numberOfResults; i = i + 1) {
+  for (let i = 0; i < numberOfResults; i = i + 1) {
     workingPage.results.push({
       listing_id: faker.random.number(),
       state: faker.random.word(),
@@ -55,13 +55,18 @@ function generateFakeEtsyPages(numberOfResults = 100, resultsPerPage = 100) {
       used_manufacturer: faker.random.boolean(),
       is_vintage: faker.random.boolean(),
     })
-    if (i % resultsPerPage === 0 || i === numberOfResults) {
+    const resultNumber = i + 1
+    if (
+      resultNumber % resultsPerPage === 0 ||
+      resultNumber === numberOfResults
+    ) {
+      const pageIndex = Math.floor(i / resultsPerPage)
       workingPage = {
         ...workingPage,
-        count: faker.random.number(),
+        count: numberOfResults,
         params: {
-          limit: '100',
-          offset: '0',
+          limit: String(resultsPerPage),
+          offset: String(resultsPerPage * pageIndex),
           page: null,
           shop_id: faker.random.uuid(),
           keywords: null,
@@ -78,16 +83,34 @@ function generateFakeEtsyPages(numberOfResults = 100, resultsPerPage = 100) {
         },
         type: 'Listing',
         pagination: {
-          effective_limit: 100,
-          effective_offset: 0,
-          next_offset: null,
-          effective_page: 1,
-          next_page: null,
+          effective_limit: resultsPerPage,
+          effective_offset: resultsPerPage * pageIndex,
+          next_offset: resultsPerPage * (pageIndex + 1),
+          effective_page: pageIndex + 1,
+          next_page: pageIndex + 2,
         },
       }
       pages.push(workingPage)
       workingPage = { results: [] }
     }
+  }
+  if (pages.length) {
+    const lastPage = pages[pages.length - 1]
+    pages.push({
+      ...lastPage,
+      results: [],
+      params: {
+        ...lastPage.params,
+        offset: String(Number(lastPage.params.offset) + resultsPerPage),
+      },
+      pagination: {
+        ...lastPage.pagination,
+        effective_offset: lastPage.pagination.effective_offset + resultsPerPage,
+        next_offset: null,
+        effective_page: lastPage.pagination.effective_page + 1,
+        next_page: null,
+      },
+    })
   }
   return pages
 }

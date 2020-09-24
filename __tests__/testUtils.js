@@ -4,16 +4,46 @@ const { generateFakeEtsyPages } = require('../testUtils')
 describe('generateFakeEtsyPages', () => {
   it('returns the default number of pages and results', () => {
     const pages = generateFakeEtsyPages()
-    expect(pages.length).toBe(1)
-    const [page] = pages
-    expect(page.results.length).toBe(100)
+    expect(pages.length).toBe(2)
+    const [firstPage] = pages
+    expect(firstPage.results.length).toBe(100)
   })
 
   it('returns the right number of pages', () => {
     const results = 25
     const perPage = 10
     const pages = generateFakeEtsyPages(results, perPage)
-    expect(pages.length).toBe(3)
+    expect(pages.length).toBe(4)
+  })
+
+  it('returns the right count', () => {
+    const results = 25
+    const perPage = 10
+    const pages = generateFakeEtsyPages(results, perPage)
+    pages.forEach(page => {
+      expect(page.count).toBe(results)
+    })
+  })
+
+  it('returns the right pagination info', () => {
+    const results = 25
+    const perPage = 10
+    const pages = generateFakeEtsyPages(results, perPage)
+    pages.forEach((page, i) => {
+      const { pagination, params } = page
+      expect(pagination.effective_limit).toBe(perPage)
+      expect(pagination.effective_offset).toBe(perPage * i)
+      expect(pagination.effective_page).toBe(i + 1)
+      expect(params.limit).toBe(String(perPage))
+      expect(params.offset).toBe(String(perPage * i))
+      if (i === pages.length - 1) {
+        expect(pagination.next_offset).toBe(null)
+        expect(pagination.next_page).toBe(null)
+      } else {
+        expect(pagination.next_offset).toBe(perPage * (i + 1))
+        expect(pagination.next_page).toBe(i + 2)
+      }
+    })
   })
 
   it('returns data in the right schema', async () => {
@@ -28,11 +58,17 @@ describe('generateFakeEtsyPages', () => {
         effective_offset: Joi.number()
           .integer()
           .min(0),
-        next_offset: null,
+        next_offset: Joi.number()
+          .integer()
+          .min(0)
+          .allow(null),
         effective_page: Joi.number()
           .integer()
           .min(0),
-        next_page: null,
+        next_page: Joi.number()
+          .integer()
+          .min(0)
+          .allow(null),
       },
       params: Joi.object({
         limit: Joi.string(),

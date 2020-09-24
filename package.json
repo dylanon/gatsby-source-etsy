@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cz": "git-cz",
+    "fixtures:generate": "node generateFixtures",
     "test": "jest --runInBand",
     "semantic-release": "semantic-release"
   },

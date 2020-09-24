@@ -1,8 +1,10 @@
 const nock = require('nock')
 const utilsMock = require('../utils')
-const { generateFakeEtsyPages } = require('../testUtils')
 const { ETSY_BASE_URL, ETSY_PAGE_LIMIT } = require('../constants')
 const { sourceNodes } = require('../gatsby-node')
+const page1 = require('../fixtures/page1.json')
+const page2 = require('../fixtures/page2.json')
+const page3 = require('../fixtures/page3.json')
 
 jest.mock('../utils', () => {
   const originalModule = jest.requireActual('../utils')
@@ -49,14 +51,9 @@ let nockScope = nock(ETSY_BASE_URL)
 
 afterEach(() => {
   nock.cleanAll()
-  jest.clearAllMocks()
 })
 
 describe('networking', () => {
-  const numberOfListings = 25
-  const perPage = 10
-  const pages = generateFakeEtsyPages(numberOfListings, perPage)
-
   beforeEach(() => {
     nockScope
       .filteringPath(/\/listings\/.*\/images/, `/listings/${listingId}/images`)
@@ -67,31 +64,21 @@ describe('networking', () => {
         limit: ETSY_PAGE_LIMIT,
         offset: 0,
       })
-      .reply(200, pages[0])
+      .reply(200, page1)
       .get(`/shops/${shopId}/listings/featured`)
       .query({
         api_key: apiKey,
         limit: ETSY_PAGE_LIMIT,
         offset: 1 * ETSY_PAGE_LIMIT,
       })
-      .reply(200, pages[1])
+      .reply(200, page2)
       .get(`/shops/${shopId}/listings/featured`)
       .query({
         api_key: apiKey,
         limit: ETSY_PAGE_LIMIT,
         offset: 2 * ETSY_PAGE_LIMIT,
       })
-      .reply(200, pages[2])
-      .get(`/shops/${shopId}/listings/featured`)
-      .query({
-        api_key: apiKey,
-        limit: ETSY_PAGE_LIMIT,
-        offset: 3 * ETSY_PAGE_LIMIT,
-      })
-      .reply(200, {
-        ...pages[2],
-        results: [],
-      })
+      .reply(200, page3)
       .get(`/listings/${listingId}/images`)
       .query({
         api_key: apiKey,

@@ -1,0 +1,29 @@
+{
+  "results": [],
+  "count": 101,
+  "params": {
+    "limit": "100",
+    "offset": "200",
+    "page": null,
+    "shop_id": "c6007581-b18b-4907-96e6-14f4015227d1",
+    "keywords": null,
+    "sort_on": "created",
+    "sort_order": "down",
+    "min_price": null,
+    "max_price": null,
+    "color": null,
+    "color_accuracy": 0,
+    "tags": null,
+    "taxonomy_id": null,
+    "translate_keywords": "false",
+    "include_private": 0
+  },
+  "type": "Listing",
+  "pagination": {
+    "effective_limit": 100,
+    "effective_offset": 200,
+    "next_offset": null,
+    "effective_page": 3,
+    "next_page": null
+  }
+}
