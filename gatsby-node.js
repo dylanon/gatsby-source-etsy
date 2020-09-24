@@ -1,6 +1,6 @@
 const { createRemoteFileNode } = require('gatsby-source-filesystem')
 const { createThrottledFetch, getListingsRecursively } = require('./utils')
-const { ETSY_BASE_URL } = require('./constants')
+const { ETSY_BASE_URL, ETSY_FETCH_CONFIG } = require('./constants')
 
 exports.sourceNodes = async (
   {
@@ -14,19 +14,16 @@ exports.sourceNodes = async (
   },
   configOptions
 ) => {
-  const etsyFetch = createThrottledFetch({
-    minTime: 150, // 6.7 requests per second
-    maxConcurrent: 6,
-  })
+  const etsyFetch = createThrottledFetch(ETSY_FETCH_CONFIG)
 
   const { createNode, createParentChildLink, touchNode } = actions
-  const { apiKey, shopId, language } = configOptions
+  const { api_key, shop_id, ...queryParams } = configOptions
 
   const listings = await getListingsRecursively(
-    shopId,
-    apiKey,
+    shop_id,
+    api_key,
     etsyFetch,
-    language
+    queryParams
   )
 
   // * Process listings
@@ -67,7 +64,7 @@ exports.sourceNodes = async (
 
     // * Get images metadata for the listing
     const { results: images } = await etsyFetch(
-      `${ETSY_BASE_URL}/listings/${listing_id}/images?api_key=${apiKey}`
+      `${ETSY_BASE_URL}/listings/${listing_id}/images?api_key=${api_key}`
     ).then(res => res.json())
 
     // * Process images

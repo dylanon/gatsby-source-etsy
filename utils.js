@@ -24,33 +24,42 @@ function createThrottledFetch(limiterOptions = {}) {
 }
 
 async function getListingsRecursively(
-  shopId,
-  apiKey,
+  shop_id,
+  api_key,
   etsyFetch,
-  language = null,
+  queryParams = {},
   offset = 0
 ) {
+  const {
+    shop_id: _shop_id,
+    page: _page,
+    ...allowableQueryParams
+  } = queryParams
+  const definedQueryParams = {}
+  Object.entries(allowableQueryParams).forEach(([key, value]) => {
+    if (value !== undefined) {
+      definedQueryParams[key] = value
+    }
+  })
   const queryObject = {
-    api_key: apiKey,
+    ...definedQueryParams,
+    api_key: api_key,
     limit: ETSY_PAGE_LIMIT,
     offset,
   }
-  if (language) {
-    queryObject.language = language
-  }
   const query = querystring.stringify(queryObject)
   const { results } = await etsyFetch(
-    `${ETSY_BASE_URL}/shops/${shopId}/listings/featured?${query}`
+    `${ETSY_BASE_URL}/shops/${shop_id}/listings/featured?${query}`
   ).then(res => res.json())
 
   let nextResults = []
 
   if (results.length) {
     nextResults = await getListingsRecursively(
-      shopId,
-      apiKey,
+      shop_id,
+      api_key,
       etsyFetch,
-      language,
+      queryParams,
       offset + ETSY_PAGE_LIMIT
     )
   }

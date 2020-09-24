@@ -1,6 +1,10 @@
 const nock = require('nock')
 const utilsMock = require('../utils')
-const { ETSY_BASE_URL, ETSY_PAGE_LIMIT } = require('../constants')
+const {
+  ETSY_BASE_URL,
+  ETSY_FETCH_CONFIG,
+  ETSY_PAGE_LIMIT,
+} = require('../constants')
 const { sourceNodes } = require('../gatsby-node')
 const page1 = require('../fixtures/page1.json')
 const page2 = require('../fixtures/page2.json')
@@ -41,8 +45,8 @@ const reporter = {
   info: jest.fn(),
 }
 const store = {}
-const apiKey = 'mockApiKey'
-const shopId = 'mockShopId'
+const api_key = 'mockApiKey'
+const shop_id = 'mockShopId'
 const listingId = 'id1'
 const listingImageId = 'imageId1'
 const listingImageUrl = 'mockImageUrl'
@@ -58,30 +62,30 @@ describe('networking', () => {
     nockScope
       .filteringPath(/\/listings\/.*\/images/, `/listings/${listingId}/images`)
       .persist()
-      .get(`/shops/${shopId}/listings/featured`)
+      .get(`/shops/${shop_id}/listings/featured`)
       .query({
-        api_key: apiKey,
+        api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
         offset: 0,
       })
       .reply(200, page1)
-      .get(`/shops/${shopId}/listings/featured`)
+      .get(`/shops/${shop_id}/listings/featured`)
       .query({
-        api_key: apiKey,
+        api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
         offset: 1 * ETSY_PAGE_LIMIT,
       })
       .reply(200, page2)
-      .get(`/shops/${shopId}/listings/featured`)
+      .get(`/shops/${shop_id}/listings/featured`)
       .query({
-        api_key: apiKey,
+        api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
         offset: 2 * ETSY_PAGE_LIMIT,
       })
       .reply(200, page3)
       .get(`/listings/${listingId}/images`)
       .query({
-        api_key: apiKey,
+        api_key: api_key,
       })
       .reply(200, {
         results: [
@@ -105,8 +109,8 @@ describe('networking', () => {
         store,
       },
       {
-        apiKey,
-        shopId,
+        api_key,
+        shop_id,
       }
     )
     expect(nockScope.isDone()).toBe(true)
@@ -117,9 +121,9 @@ describe('processing', () => {
   beforeEach(() => {
     nockScope
       .persist()
-      .get(`/shops/${shopId}/listings/featured`)
+      .get(`/shops/${shop_id}/listings/featured`)
       .query({
-        api_key: apiKey,
+        api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
         offset: 0,
       })
@@ -131,9 +135,9 @@ describe('processing', () => {
           },
         ],
       })
-      .get(`/shops/${shopId}/listings/featured`)
+      .get(`/shops/${shop_id}/listings/featured`)
       .query({
-        api_key: apiKey,
+        api_key: api_key,
         limit: ETSY_PAGE_LIMIT,
         offset: 1 * ETSY_PAGE_LIMIT,
       })
@@ -166,14 +170,11 @@ describe('processing', () => {
           store,
         },
         {
-          apiKey,
-          shopId,
+          api_key,
+          shop_id,
         }
       )
-      expect(utilsMock.createThrottledFetch).toBeCalledWith({
-        minTime: 150,
-        maxConcurrent: 6,
-      })
+      expect(utilsMock.createThrottledFetch).toBeCalledWith(ETSY_FETCH_CONFIG)
       expect(cache.get).toBeCalledWith('cached-gsetsy_listing_id1')
       expect(touchNode).not.toBeCalled()
       expect(reporter.info).toBeCalledWith(
@@ -241,8 +242,8 @@ describe('processing', () => {
           store,
         },
         {
-          apiKey,
-          shopId,
+          api_key,
+          shop_id,
         }
       )
       expect(reporter.info).toBeCalledWith(
