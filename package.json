@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "cz": "git-cz",
-    "test": "jest",
+    "fixtures:generate": "node generateFixtures",
+    "test": "jest --runInBand",
     "semantic-release": "semantic-release"
   },
   "repository": {
@@ -32,8 +33,11 @@
     "node": ">=10.15.3"
   },
   "devDependencies": {
+    "faker": "^5.1.0",
     "git-cz": "^3.2.1",
     "jest": "^24.9.0",
+    "joi": "^17.2.1",
+    "nock": "^13.0.4",
     "prettier": "1.18.2",
     "semantic-release": "^15.13.24"
   }

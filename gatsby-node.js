@@ -1,11 +1,6 @@
 const { createRemoteFileNode } = require('gatsby-source-filesystem')
-const { createThrottledFetch } = require('./utils')
-const { ETSY_BASE_URL } = require('./constants')
-
-const etsyFetch = createThrottledFetch({
-  minTime: 150, // 6.7 requests per second
-  maxConcurrent: 6,
-})
+const { createThrottledFetch, getListingsRecursively } = require('./utils')
+const { ETSY_BASE_URL, ETSY_FETCH_CONFIG } = require('./constants')
 
 exports.sourceNodes = async (
   {
@@ -19,13 +14,17 @@ exports.sourceNodes = async (
   },
   configOptions
 ) => {
-  const { createNode, createParentChildLink, touchNode } = actions
-  const { apiKey, shopId, language } = configOptions
+  const etsyFetch = createThrottledFetch(ETSY_FETCH_CONFIG)
 
-  // * Get the listings
-  const { results: listings } = await etsyFetch(
-    `${ETSY_BASE_URL}/shops/${shopId}/listings/featured?api_key=${apiKey}${language ? `&language=${language}` : ''}`
-  ).then(res => res.json())
+  const { createNode, createParentChildLink, touchNode } = actions
+  const { api_key, shop_id, ...queryParams } = configOptions
+
+  const listings = await getListingsRecursively(
+    shop_id,
+    api_key,
+    etsyFetch,
+    queryParams
+  )
 
   // * Process listings
   const listingProcessingJobs = listings.map(async listing => {
@@ -57,7 +56,7 @@ exports.sourceNodes = async (
       id: listingNodeId,
       parent: null,
       internal: {
-        type: 'FeaturedEtsyListing',
+        type: 'EtsyListing',
         contentDigest: createContentDigest(listing),
       },
       ...listing,
@@ -65,7 +64,7 @@ exports.sourceNodes = async (
 
     // * Get images metadata for the listing
     const { results: images } = await etsyFetch(
-      `${ETSY_BASE_URL}/listings/${listing_id}/images?api_key=${apiKey}`
+      `${ETSY_BASE_URL}/listings/${listing_id}/images?api_key=${api_key}`
     ).then(res => res.json())
 
     // * Process images
