@@ -7,7 +7,8 @@
     "cz": "git-cz",
     "fixtures:generate": "node generateFixtures",
     "test": "jest --runInBand",
-    "semantic-release": "semantic-release"
+    "release": "semantic-release",
+    "release:dryRun": "semantic-release --dryRun"
   },
   "repository": {
     "type": "git",
