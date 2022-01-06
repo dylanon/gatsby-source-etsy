@@ -1,4 +1,3 @@
 {
-  "branch": "master",
-  "dryRun": false
+  "branches": ["master", { "name": "alpha", "prerelease": true }]
 }
