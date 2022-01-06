@@ -220,13 +220,20 @@ describe('processing', () => {
         }
       }),
     }
+    const mockListingNode = {
+      id: 'gsetsy_listing_id1',
+      listing_id: `id1`,
+      last_modified_tsz: 1570240827981,
+    }
+    const mockListingImageNode = {
+      id: 'gsetsy_listing_id1_image_imageId1',
+      listing_id: `id1`,
+      last_modified_tsz: 1570240827981,
+    }
     const mockGetNode = nodeId => {
       const cachedNodes = {
-        'cached-gsetsy_listing_id1': {
-          id: 'gsetsy_listing_id1',
-          listing_id: `id1`,
-          last_modified_tsz: 1570240827981,
-        },
+        'cached-gsetsy_listing_id1': mockListingNode,
+        gsetsy_listing_id1_image_imageId1: mockListingImageNode,
       }
       return cachedNodes[nodeId]
     }
@@ -251,12 +258,8 @@ describe('processing', () => {
         `gatsby-source-etsy: using cached version of listing node gsetsy_listing_id1`
       )
       expect(touchNode).toBeCalledTimes(2)
-      expect(touchNode.mock.calls[0][0]).toEqual({
-        nodeId: 'gsetsy_listing_id1',
-      })
-      expect(touchNode.mock.calls[1][0]).toEqual({
-        nodeId: 'gsetsy_listing_id1_image_imageId1',
-      })
+      expect(touchNode.mock.calls[0][0]).toEqual(mockListingNode)
+      expect(touchNode.mock.calls[1][0]).toEqual(mockListingImageNode)
       expect(createNode).not.toBeCalled()
     })
   })
