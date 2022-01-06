@@ -6,9 +6,19 @@ Downloads listing info and images from your Etsy shop!
 
 ## Installation
 
+### Sites on Gatsby v3+
+
 Install the package from npm:
 
 `npm i gatsby-source-etsy`
+
+### Sites on Gatsby v1, v2
+
+Install version 1 from npm:
+
+`npm i gatsby-source-etsy@^1.0.0`
+
+## Configuration
 
 Next, add the plugin to your `gatsby-config.js` file:
 
