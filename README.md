@@ -140,3 +140,28 @@ Query:
 ```
 
 See [`gatsby-image`](https://www.gatsbyjs.org/packages/gatsby-image/) for more.
+
+## Contributing
+
+Did something break, or is there additional functionality you'd like to add to this plugin? Consider contributing to this project!
+
+Feel free to open an issue to discuss what's happening first, or dive right in and open a PR.
+
+### Developing this plugin locally
+
+You can use `yalc` to test changes you make to this plugin against a local Gatsby site:
+
+```bash
+# Install yalc globally on your system
+yarn global add yalc
+
+# Publish the package to your local repository
+# (Run this from this repo's root directory)
+yalc publish
+
+# Use the package from your local repository instead of one from npm
+# (Run this from your Gatsby site's root directory)
+yalc add gatsby-source-etsy
+```
+
+For up-to-date information and troubleshooting, see `yalc`'s [documentation](https://github.com/wclr/yalc).
