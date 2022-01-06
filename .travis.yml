@@ -12,3 +12,10 @@ jobs:
         skip_cleanup: true
         script:
           - npx semantic-release
+      deploy:
+        provider: script
+        on:
+          branch: alpha
+        skip_cleanup: true
+        script:
+          - npx semantic-release
