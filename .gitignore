@@ -3,3 +3,5 @@ coverage
 .DS_Store
 .idea
 .env
+.yalc
+yalc.lock
