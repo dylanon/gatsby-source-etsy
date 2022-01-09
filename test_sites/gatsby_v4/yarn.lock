@@ -4707,7 +4707,7 @@ gatsby-source-etsy@^2.0.0-alpha.1:
     gatsby-source-filesystem "^4.4.0"
     node-fetch "^2.6.0"
 
-gatsby-source-filesystem@^4.4.0:
+gatsby-source-filesystem@^4.0.0, gatsby-source-filesystem@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-4.4.0.tgz#9921ac0600166e4ee0cd561d194c2df89a42e11d"
   integrity sha512-tN+aJdOnBf92V9oHXaGzPB6gL0EhpYH0mh/dfszroy25CtSq07fZu8SynS/B3ClJVi22MkD0imcDVMlPJGSQ3w==

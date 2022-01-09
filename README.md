@@ -12,6 +12,10 @@ Install the package from npm:
 
 `npm i gatsby-source-etsy`
 
+Install peer dependencies:
+
+`npm i gatsby-source-filesystem`
+
 ### Sites on Gatsby v1, v2
 
 Install version 1 from npm:

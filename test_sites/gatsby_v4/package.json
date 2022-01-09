@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "gatsby": "^4.4.0",
-    "gatsby-source-etsy": "file:.yalc/gatsby-source-etsy",
+    "gatsby-source-etsy": "^2.0.0-alpha.1",
+    "gatsby-source-filesystem": "^4.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   }

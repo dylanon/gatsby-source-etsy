@@ -26,8 +26,10 @@
   },
   "dependencies": {
     "bottleneck": "^2.19.5",
-    "gatsby-source-filesystem": "^4.4.0",
     "node-fetch": "^2.6.0"
+  },
+  "peerDependencies": {
+    "gatsby-source-filesystem": "^3.0.0 || ^4.0.0"
   },
   "engines": {
     "node": ">=14.15.0"
