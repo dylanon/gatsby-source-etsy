@@ -42,8 +42,8 @@ exports.sourceNodes = async (
       reporter.info(
         `gatsby-source-etsy: using cached version of listing node ${cachedListingNode.id}`
       )
-      touchNode({ nodeId: cachedListingNode.id })
-      cachedImageNodeIds.forEach(nodeId => touchNode({ nodeId }))
+      touchNode(cachedListingNode)
+      cachedImageNodeIds.forEach(nodeId => touchNode(getNode(nodeId)))
       return
     }
 

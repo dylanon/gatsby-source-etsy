@@ -1,4 +1,8 @@
 {
-  "branch": "master",
-  "dryRun": false
+  "branches": [
+    "+([0-9])?(.{+([0-9]),x}).x",
+    "master",
+    { "name": "alpha", "prerelease": true },
+    { "name": "beta", "prerelease": true }
+  ]
 }
