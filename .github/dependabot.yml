@@ -10,6 +10,7 @@ updates:
       prefix: 'chore: 🤖'
     labels:
       - 'dependabot'
+      - 'dependencies'
     ignore:
       - dependency-name: '*'
         update-types: ['version-update:semver-major']
