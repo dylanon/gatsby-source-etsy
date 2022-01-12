@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "bottleneck": "^2.19.5",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.6"
   },
   "peerDependencies": {
     "gatsby": "^3.0.0 || ^4.0.0",
