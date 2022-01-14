@@ -1,0 +1,23 @@
+{
+  "name": "gatsby-v2-test-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gatsby v2 Test Site",
+  "author": "Dylan On",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "gatsby": "^2.0.0",
+    "gatsby-source-etsy": "^1.0.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  }
+}
