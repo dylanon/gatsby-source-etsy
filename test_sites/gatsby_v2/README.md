@@ -1,4 +1,4 @@
-# Gatsby v4 Test Site
+# Gatsby v2 Test Site
 
 ## Developing
 
