@@ -4,6 +4,10 @@
 
 Downloads listing info and images from your Etsy shop!
 
+## Gatsby version compatibility
+
+v1 of this plugin is only compatible with Gatsby v2. Gatsby v1 is not currently supported.
+
 ## Installation
 
 Install the package from npm:
