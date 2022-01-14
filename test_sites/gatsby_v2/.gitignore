@@ -1,5 +1,5 @@
 node_modules/
 .cache/
 .env
-.env.development
+.env.*
 public
