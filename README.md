@@ -20,7 +20,7 @@ Install peer dependencies:
 
 Install version 1 from npm:
 
-`npm i gatsby-source-etsy@^1.0.0`
+`npm i gatsby-source-etsy@release-1.x`
 
 ### Sites on Gatsby v1
 
