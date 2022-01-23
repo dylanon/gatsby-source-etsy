@@ -40,5 +40,8 @@
     "nock": "^13.0.4",
     "prettier": "1.18.2",
     "semantic-release": "^18.0.1"
+  },
+  "peerDependencies": {
+    "gatsby": "^2.0.0"
   }
 }
