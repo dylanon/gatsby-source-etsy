@@ -16,11 +16,15 @@ Install peer dependencies:
 
 `npm i gatsby-source-filesystem`
 
-### Sites on Gatsby v1, v2
+### Sites on Gatsby v2
 
 Install version 1 from npm:
 
 `npm i gatsby-source-etsy@^1.0.0`
+
+### Sites on Gatsby v1
+
+Gatsby v1 is not supported.
 
 ## Configuration
 
