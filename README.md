@@ -12,7 +12,7 @@ v1 of this plugin is only compatible with Gatsby v2. Gatsby v1 is not currently 
 
 Install the package from npm:
 
-`npm i gatsby-source-etsy`
+`npm i gatsby-source-etsy@release-1.x`
 
 Next, add the plugin to your `gatsby-config.js` file:
 
