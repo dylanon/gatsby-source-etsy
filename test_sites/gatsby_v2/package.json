@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "gatsby": "^2.0.0",
-    "gatsby-source-etsy": "^1.0.0",
+    "gatsby-source-etsy": "^1.2.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   }
