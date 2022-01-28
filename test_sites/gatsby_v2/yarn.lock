@@ -5454,10 +5454,10 @@ gatsby-recipes@^0.9.3:
     xstate "^4.9.1"
     yoga-layout-prebuilt "^1.9.6"
 
-gatsby-source-etsy@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gatsby-source-etsy/-/gatsby-source-etsy-1.0.0.tgz#ea4a36a9c5a856b8dece969aaaeab693c2b2a0d4"
-  integrity sha512-BUmWzKDYaDNuRPrcNKIoOGf7z8wgNYOQnhTHflXN2JuKwZZ1il+vBTQC9eiQRb7E3ypjq8JlkNDX2OpPPYUmAA==
+gatsby-source-etsy@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-etsy/-/gatsby-source-etsy-1.2.0.tgz#9e1017f3f04444ecf2a49a631cc2d6a37227fc50"
+  integrity sha512-x+I9LO4WPCEdXmUHUxkQeB3vLvmFOs52RlnSxUCwgoqfJxOM8qnryEeFkY8z0flLkKz8eF41K3z7i4eQsngSmw==
   dependencies:
     bottleneck "^2.19.5"
     gatsby-source-filesystem "^2.1.5"
