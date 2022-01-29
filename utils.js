@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 const Bottleneck = require('bottleneck')
 const querystring = require('querystring')
 const { ETSY_BASE_URL, ETSY_PAGE_LIMIT } = require('./constants')

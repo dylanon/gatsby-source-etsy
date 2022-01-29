@@ -1,6 +1,6 @@
 const { createRemoteFileNode } = require('gatsby-source-filesystem')
-const { createThrottledFetch, getListingsRecursively } = require('./utils')
-const { ETSY_BASE_URL, ETSY_FETCH_CONFIG } = require('./constants')
+const { createThrottledFetch, getListingsRecursively } = require('../utils')
+const { ETSY_BASE_URL, ETSY_FETCH_CONFIG } = require('../constants')
 
 exports.sourceNodes = async (
   {
