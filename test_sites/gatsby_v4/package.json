@@ -15,7 +15,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "gatsby": "^4.4.0",
+    "gatsby": "^4.25.7",
     "gatsby-source-etsy": "^2.0.2",
     "gatsby-source-filesystem": "^4.0.0",
     "react": "^17.0.1",
